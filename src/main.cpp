@@ -107,11 +107,12 @@ class $modify(coloredName4, MenuLayer) {
 		ccColor3B col2 = gm->colorForIdx(gm->getPlayerColor2());
 		newNick->setColor({col.r,col.g,col.b});
 		
-		if (!Mod::get()->getSettingValue<bool>("mixcolor")) return true;
-		for (int i = 0; i < newNick->getChildrenCount()/2; i++) {
-			auto letter = static_cast<CCSprite*>(newNick->getChildren()->objectAtIndex(i));
+		if (Mod::get()->getSettingValue<bool>("mixcolor")) {
+			for (int i = 0; i < newNick->getChildrenCount()/2; i++) {
+				auto letter = static_cast<CCSprite*>(newNick->getChildren()->objectAtIndex(i));
 
-			letter->setColor({col2.r, col2.g, col2.b});
+				letter->setColor({col2.r, col2.g, col2.b});
+			}
 		}
 		nick->removeFromParent();
 		this->addChild(newNick);
