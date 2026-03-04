@@ -7,6 +7,7 @@ using namespace geode::prelude;
 #include <Geode/modify/GJScoreCell.hpp>
 #include <Geode/modify/ProfilePage.hpp>
 #include <Geode/modify/GJUserCell.hpp>
+#include <Geode/modify/MenuLayer.hpp>
 
 class $modify (coloredName, GJScoreCell) {
 	void loadFromScore(GJUserScore* score) {
@@ -84,5 +85,37 @@ class $modify(coloredName3, GJUserCell) {
 			letter->setColor({col2.r, col2.g, col2.b});
 		}
 		return;
+	}
+};
+
+class $modify(coloredName4, MenuLayer) {
+	bool init() {
+		if (!MenuLayer::init()) return false;
+		auto nick = static_cast<CCLabelBMFont*>(this->getChildByID("player-username"));
+		if(!nick) return true;
+		auto newNick = CCLabelBMFont::create(nick->getString(), "bigFont.fnt");
+		newNick->setScale(0.35f);
+		newNick->setContentSize(nick->getContentSize());
+		newNick->setPosition({nick->getPosition()});
+		newNick->setAlignment(CCTextAlignment::kCCTextAlignmentCenter);
+		newNick->setAnchorPoint({0.5f,0.5f});
+		newNick->setID(Mod::get()->getID() + "/custom-nick");
+		
+		auto gm = GameManager::sharedState();
+
+		ccColor3B col = gm->colorForIdx(gm->getPlayerColor());
+		ccColor3B col2 = gm->colorForIdx(gm->getPlayerColor2());
+		newNick->setColor({col.r,col.g,col.b});
+		
+		if (!Mod::get()->getSettingValue<bool>("mixcolor")) return true;
+		for (int i = 0; i < newNick->getChildrenCount()/2; i++) {
+			auto letter = static_cast<CCSprite*>(newNick->getChildren()->objectAtIndex(i));
+
+			letter->setColor({col2.r, col2.g, col2.b});
+		}
+		nick->removeFromParent();
+		this->addChild(newNick);
+
+		return true;
 	}
 };
