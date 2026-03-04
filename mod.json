@@ -1,0 +1,25 @@
+{
+	"geode": "5.3.0",
+	"gd": {
+		"win": "2.2081"
+	},
+	"id": "bunchuq1122.colored-username",
+	"name": "Colored Username",
+	"version": "v1.0.0",
+	"developer": "Bunchuq1122",
+	"description": "Colorful player usernames.",
+	"dependencies": {
+		"geode.node-ids": ">=v1.20.0"
+	},
+	"settings": {
+		"mixcolor": {
+			"type": "bool",
+			"name": "mix colors",
+			"description": "mix p1 and p2 colors",
+			"default": true
+		}
+	},
+	"tags": [
+		"interface"
+	]
+}
