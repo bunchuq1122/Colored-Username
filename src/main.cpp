@@ -17,12 +17,13 @@ class $modify (coloredName, GJScoreCell) {
 		ccColor3B col = gm->colorForIdx(score->m_color1);
 		ccColor3B col2 = gm->colorForIdx(score->m_color2);
 
-		auto mm = this->getChildByIDRecursive("main-menu");
+		auto mm = getChildByIDRecursive("main-menu");
 		if(!mm) return;
 		auto nick = mm->getChildByID("player-name");
 		if(!nick) return;
 		auto nickLabel = nick->getChildByType<CCLabelBMFont>(0);
 		if(!nickLabel) return;
+		auto newL = CCLabelBMFont::create(nickLabel->getString(), "bigFont.fnt");
 
 		nickLabel->setColor({col.r,col.g, col.b});
 		nickLabel->setCascadeColorEnabled(true);
@@ -46,7 +47,7 @@ class $modify(coloredName2, ProfilePage) {
 		ccColor3B col = gm->colorForIdx(score->m_color1);
 		ccColor3B col2 = gm->colorForIdx(score->m_color2);
 
-		auto nickL = this->m_usernameLabel;
+		auto nickL = m_usernameLabel;
 		if(!nickL) return;
 		nickL->setColor({col.r,col.g,col.b});
 		
@@ -69,7 +70,7 @@ class $modify(coloredName3, GJUserCell) {
 		ccColor3B col = gm->colorForIdx(score->m_color1);
 		ccColor3B col2 = gm->colorForIdx(score->m_color2);
 
-		auto mm = this->getChildByIDRecursive("main-menu");
+		auto mm = getChildByIDRecursive("main-menu");
 		if(!mm) return;
 		auto nick = mm->getChildByID("player-name");
 		if(!nick) return;
@@ -92,7 +93,7 @@ class $modify(coloredName3, GJUserCell) {
 class $modify(coloredName4, MenuLayer) {
 	bool init() {
 		if (!MenuLayer::init()) return false;
-		auto nick = static_cast<CCLabelBMFont*>(this->getChildByID("player-username"));
+		auto nick = static_cast<CCLabelBMFont*>(getChildByID("player-username"));
 		if(!nick) return true;
 		auto newNick = CCLabelBMFont::create(nick->getString(), "bigFont.fnt");
 		newNick->setScale(0.35f);
@@ -116,7 +117,7 @@ class $modify(coloredName4, MenuLayer) {
 			}
 		}
 		nick->removeFromParent();
-		this->addChild(newNick);
+		addChild(newNick);
 
 		return true;
 	}
@@ -125,6 +126,9 @@ class $modify(coloredName4, MenuLayer) {
 class $modify(coloredName5, CommentCell) {
 	void loadFromComment(GJComment* comment) {
 		CommentCell::loadFromComment(comment);
+
+		if(!comment->m_userScore) return;	
+
 		auto gm = GameManager::sharedState();
 		
 		ccColor3B col = gm->colorForIdx(comment->m_userScore->m_color1);
