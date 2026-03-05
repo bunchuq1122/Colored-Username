@@ -5,7 +5,7 @@
 	},
 	"id": "bunchuq1122.colored-username",
 	"name": "Colored Username",
-	"version": "v1.0.0-alpha",
+	"version": "v1.0.1",
 	"developer": "Bunchuq1122",
 	"description": "Colorful player usernames.",
 	"dependencies": {

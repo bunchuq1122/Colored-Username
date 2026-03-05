@@ -8,6 +8,7 @@ using namespace geode::prelude;
 #include <Geode/modify/ProfilePage.hpp>
 #include <Geode/modify/GJUserCell.hpp>
 #include <Geode/modify/MenuLayer.hpp>
+#include <Geode/modify/CommentCell.hpp>
 
 class $modify (coloredName, GJScoreCell) {
 	void loadFromScore(GJUserScore* score) {
@@ -118,5 +119,52 @@ class $modify(coloredName4, MenuLayer) {
 		this->addChild(newNick);
 
 		return true;
+	}
+};
+
+class $modify(coloredName5, CommentCell) {
+	void loadFromComment(GJComment* comment) {
+		CommentCell::loadFromComment(comment);
+		auto gm = GameManager::sharedState();
+		
+		ccColor3B col = gm->colorForIdx(comment->m_userScore->m_color1);
+		ccColor3B col2 = gm->colorForIdx(comment->m_userScore->m_color2);
+
+		auto mm = getChildByIDRecursive("main-menu");
+		if(!mm) return;
+		auto um = mm->getChildByID("user-menu");
+		if(!um) return;
+		auto unm = um->getChildByID("username-menu");
+		if(!unm) return;
+		auto nick = unm->getChildByID("username-button");
+		if(!nick) return;
+		auto nickLabel = nick->getChildByType<CCLabelBMFont>(0);
+		if(!nickLabel) return;
+		auto newNickL = CCLabelBMFont::create(nickLabel->getString(),"bigFont.fnt");
+		newNickL->setPosition({
+			nickLabel->getPositionX() + 10.f,
+			nickLabel->getPositionY()
+		});
+		newNickL->setAlignment(CCTextAlignment::kCCTextAlignmentLeft);
+		newNickL->setAnchorPoint({0.5f,0.5f});
+		newNickL->setContentSize(nickLabel->getContentSize());
+		newNickL->setScale(0.6f);
+
+
+		nickLabel->removeFromParent();
+		nick->addChild(newNickL);
+		nick->updateLayout();
+
+		newNickL->setColor({col.r,col.g, col.b});
+		newNickL->setCascadeColorEnabled(true);
+
+		if (!Mod::get()->getSettingValue<bool>("mixcolor")) return;
+		for (int i = 0; i < newNickL->getChildrenCount()/2; i++) {
+			auto letter = static_cast<CCSprite*>(newNickL->getChildren()->objectAtIndex(i));
+
+			letter->setColor({col2.r, col2.g, col2.b});
+		}
+
+		return;
 	}
 };
