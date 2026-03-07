@@ -153,6 +153,7 @@ class $modify(coloredName5, CommentCell) {
 		newNickL->setAnchorPoint({0.5f,0.5f});
 		newNickL->setContentSize(nickLabel->getContentSize());
 		newNickL->setScale(0.6f);
+		if (m_compactMode) newNickL->setScale(0.4f);
 
 
 		nickLabel->removeFromParent();

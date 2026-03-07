@@ -3,3 +3,6 @@
 
 # 1.0.1
 - now also works on comment
+
+# 1.0.2
+- compactmode fix
